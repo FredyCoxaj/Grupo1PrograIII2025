@@ -15,7 +15,7 @@ public class hojaCalculo {
         this.inicio = null;
     }
     
-    public void insertar(int fila, int columna, String valor){
+    public void insertar(int fila, int columna, Integer valor){
         celda nuevaCelda = new celda(valor);
         
         if(inicio == null){
@@ -30,7 +30,7 @@ public class hojaCalculo {
             for(int i = 0; i < fila; i++){
                 if(actualFila.getAbajo() == null){
                     //crea una nueva fila en caso de que no exista
-                    celda nuevaFlia = new celda("");
+                    celda nuevaFlia = new celda(null);
                     actualFila.setAbajo(nuevaFlia);
                     nuevaFlia.setArriba(actualFila);
                 }
@@ -41,7 +41,7 @@ public class hojaCalculo {
             for(int j = 1; j < columna; j++){
                 if(actualColumna.getDerecha() == null){
                     //crea una nueva columna
-                    celda nuevaColumna = new celda("");
+                    celda nuevaColumna = new celda(null);
                     actualColumna.setDerecha(nuevaColumna);
                     nuevaColumna.setIzquierda(actualColumna);
                 }
@@ -66,25 +66,30 @@ public class hojaCalculo {
     }
     
     //metodo de obtencion de datos de una celda especifica
-    public String obtenerValor(int fila, int columna){
+    public int obtenerValor(Integer fila, Integer columna){
         celda actual = inicio;
         
         //moverse a la fila correcta
-        for(int i = 1; i < fila; i++){
+        for(Integer i = 1; i < fila; i++){
             if(actual.getAbajo() == null){
-                return null;
+                return -1;
             }
             actual = actual.getAbajo();
         }
         
         //moverse a la columna correcta
-        for(int j = 1; j < columna; j++){
+        for(Integer j = 1; j < columna; j++){
             if(actual.getDerecha() == null){
-                return null;
+                return -1;
             }
             actual = actual.getDerecha();
         }
         return actual.getValor();
+    }
+    
+    //metodo para operaciones entre celdas
+    public void operacciones(Integer fila, Integer columna){
+        
     }
     
     //metodo de impresion de la hoja 
