@@ -117,7 +117,33 @@ public class hojaCalculo {
         // Asignar el valor a la celda
         celdaActual.setValor(valor);
     }
-    
+    // Método para modificar el valor de una celda existente***
+    public void modificarValor(int fila, int columna, String nuevoValor) {
+        celda celdaActual = inicio;
+
+        // Moverse a la fila correcta
+        for (int i = 1; i < fila; i++) {
+            if (celdaActual.getAbajo() == null) {
+                System.out.println("La fila " + fila + " no existe.");
+                return; // La fila no existe
+            }
+            celdaActual = celdaActual.getAbajo();
+        }
+
+        // Moverse a la columna correcta
+        for (int j = 1; j < columna; j++) {
+            if (celdaActual.getDerecha() == null) {
+                System.out.println("La columna " + columna + " no existe.");
+                return; // La columna no existe
+            }
+            celdaActual = celdaActual.getDerecha();
+        }
+
+        // Modificar el valor de la celda
+        celdaActual.setValor(nuevoValor);
+        System.out.println("Valor modificado en la celda [" + fila + "," + columna + "].");
+    }
+   
     //metodo para operaciones entre celdas
     public void operacciones(Integer fila, Integer columna){
         
