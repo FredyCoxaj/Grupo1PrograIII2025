@@ -15,7 +15,7 @@ public class hojaCalculo {
         this.inicio = null;
     }
     
-    public void insertar(int fila, int columna, String valor){
+    public void insertar(int fila, int columna, Integer valor){
         celda nuevaCelda = new celda(valor);
         
         if(inicio == null){
@@ -89,14 +89,14 @@ public class hojaCalculo {
     }
     
     // Método para insertar un valor en una celda específica***
-    public void insertarValor(int fila, int columna, String valor) {
+    public void insertarValor(int fila, int columna, Integer valor) {
         celda celdaActual = inicio;
 
         // Navegar hasta la fila deseada
         for (int i = 1; i < fila; i++) {
             if (celdaActual.getAbajo() == null) {
                 // Si no existe la fila, la creamos
-                celda nuevaFila = new celda("");
+                celda nuevaFila = new celda(null);
                 celdaActual.setAbajo(nuevaFila);
                 nuevaFila.setArriba(celdaActual);
             }
@@ -107,7 +107,7 @@ public class hojaCalculo {
         for (int j = 1; j < columna; j++) {
             if (celdaActual.getDerecha() == null) {
                 // Si no existe la columna, la creamos
-                celda nuevaColumna = new celda("");
+                celda nuevaColumna = new celda(null);
                 celdaActual.setDerecha(nuevaColumna);
                 nuevaColumna.setIzquierda(celdaActual);
             }
@@ -118,7 +118,7 @@ public class hojaCalculo {
         celdaActual.setValor(valor);
     }
     // Método para modificar el valor de una celda existente***
-    public void modificarValor(int fila, int columna, String nuevoValor) {
+    public void modificarValor(int fila, int columna, Integer nuevoValor) {
         celda celdaActual = inicio;
 
         // Moverse a la fila correcta

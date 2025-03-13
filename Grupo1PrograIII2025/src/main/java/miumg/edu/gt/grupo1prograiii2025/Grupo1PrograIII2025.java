@@ -17,7 +17,7 @@ public class Grupo1PrograIII2025 {
         Integer opcion = null;
         Scanner ent = new Scanner(System.in);
 
-        System.out.println("Hola. Bienvenido al entregable #1 del grupo NO.1");
+        /**System.out.println("Hola. Bienvenido al entregable #1 del grupo NO.1");
         System.out.println("A continuacion te mostrare un grupo de opciones que puedes usar para");
         System.out.println("interactuar con nuestro algoritmo");
         System.out.println("");
@@ -53,6 +53,6 @@ public class Grupo1PrograIII2025 {
                 opcion = -1;
                 ent.nextInt();
             }
-        } while (opcion == 6);
+        } while (opcion == 6);*/
     }
 }
