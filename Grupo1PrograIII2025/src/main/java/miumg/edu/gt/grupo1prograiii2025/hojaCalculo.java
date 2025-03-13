@@ -37,7 +37,8 @@ public class hojaCalculo {
                 }
                 actualFila = actualFila.getAbajo();
             }
-            
+            //sincronizacion de actualColumna con actualFila
+            actualFila = actualColumna;
             //moverses a la columna correcta
             for(int j = 1; j < columna; j++){
                 if(actualColumna.getDerecha() == null){

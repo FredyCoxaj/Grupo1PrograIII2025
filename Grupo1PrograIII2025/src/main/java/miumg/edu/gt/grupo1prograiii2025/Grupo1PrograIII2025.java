@@ -16,7 +16,6 @@ public class Grupo1PrograIII2025 {
         hojaCalculo hoja = new hojaCalculo();
         Integer opcion = null;
         Scanner ent = new Scanner(System.in);
-
         /**System.out.println("Hola. Bienvenido al entregable #1 del grupo NO.1");
         System.out.println("A continuacion te mostrare un grupo de opciones que puedes usar para");
         System.out.println("interactuar con nuestro algoritmo");
