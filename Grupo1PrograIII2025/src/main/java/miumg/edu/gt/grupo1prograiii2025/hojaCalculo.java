@@ -15,11 +15,12 @@ public class hojaCalculo {
         this.inicio = null;
     }
     
-    public void insertar(int fila, int columna, Integer valor){
+    public void insertar(int fila, int columna, String valor){
         celda nuevaCelda = new celda(valor);
         
         if(inicio == null){
             inicio = nuevaCelda;
+            
         } else {
             
             //busca la pocision correcta para incestar la celda
@@ -87,6 +88,36 @@ public class hojaCalculo {
         return actual.getValor();
     }
     
+    // Método para insertar un valor en una celda específica***
+    public void insertarValor(int fila, int columna, String valor) {
+        celda celdaActual = inicio;
+
+        // Navegar hasta la fila deseada
+        for (int i = 1; i < fila; i++) {
+            if (celdaActual.getAbajo() == null) {
+                // Si no existe la fila, la creamos
+                celda nuevaFila = new celda("");
+                celdaActual.setAbajo(nuevaFila);
+                nuevaFila.setArriba(celdaActual);
+            }
+            celdaActual = celdaActual.getAbajo();
+        }
+
+        // Navegar hasta la columna deseada
+        for (int j = 1; j < columna; j++) {
+            if (celdaActual.getDerecha() == null) {
+                // Si no existe la columna, la creamos
+                celda nuevaColumna = new celda("");
+                celdaActual.setDerecha(nuevaColumna);
+                nuevaColumna.setIzquierda(celdaActual);
+            }
+            celdaActual = celdaActual.getDerecha();
+        }
+
+        // Asignar el valor a la celda
+        celdaActual.setValor(valor);
+    }
+    
     //metodo para operaciones entre celdas
     public void operacciones(Integer fila, Integer columna){
         
@@ -124,6 +155,7 @@ public class hojaCalculo {
     // Método para mover arriba
     public void moverArriba() {
         if (celdaActual.getArriba() != null) {
+            
             celdaActual = celdaActual.getArriba();
         }
     }
