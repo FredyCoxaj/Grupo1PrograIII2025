@@ -105,4 +105,34 @@ public class hojaCalculo {
             filaActual = filaActual.getAbajo();
         }
     }
+    private celda celdaActual; // Celda actualmente seleccionada
+
+    // Método para mover a la derecha
+    public void moverDerecha() {
+        if (celdaActual.getDerecha() != null) {
+            celdaActual = celdaActual.getDerecha();
+        }
+    }
+
+    // Método para mover a la izquierda
+    public void moverIzquierda() {
+        if (celdaActual.getIzquierda() != null) {
+            celdaActual = celdaActual.getIzquierda();
+        }
+    }
+
+    // Método para mover arriba
+    public void moverArriba() {
+        if (celdaActual.getArriba() != null) {
+            celdaActual = celdaActual.getArriba();
+        }
+    }
+
+    // Método para mover abajo
+    public void moverAbajo() {
+        if (celdaActual.getAbajo() != null) {
+            celdaActual = celdaActual.getAbajo();
+        }
+    }
+
 }
