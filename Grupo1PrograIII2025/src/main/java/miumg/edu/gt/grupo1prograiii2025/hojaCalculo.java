@@ -118,6 +118,49 @@ public class hojaCalculo {
         // Asignar el valor a la celda
         celdaActual.setValor(valor);
     }
+    // Método para eliminar una celda en una posición específica***
+    public void eliminarCelda(int fila, int columna) {
+        celda celdaActual = inicio;
+
+        // Moverse a la fila correcta
+        for (int i = 1; i < fila; i++) {
+            if (celdaActual.getAbajo() == null) {
+                System.out.println("La fila " + fila + " no existe.");
+                return; // La fila no existe
+            }
+            celdaActual = celdaActual.getAbajo();
+        }
+        
+        // Moverse a la columna correcta
+        for (int j = 1; j < columna; j++) {
+            if (celdaActual.getDerecha() == null) {
+                System.out.println("La columna " + columna + " no existe.");
+                return; // La columna no existe
+            }
+            celdaActual = celdaActual.getDerecha();
+        }
+
+        // Actualizar referencias de las celdas adyacentes
+        if (celdaActual.getIzquierda() != null) {
+            celdaActual.getIzquierda().setDerecha(celdaActual.getDerecha());
+        }
+        if (celdaActual.getDerecha() != null) {
+            celdaActual.getDerecha().setIzquierda(celdaActual.getIzquierda());
+        }
+        if (celdaActual.getArriba() != null) {
+            celdaActual.getArriba().setAbajo(celdaActual.getAbajo());
+        }
+        if (celdaActual.getAbajo() != null) {
+            celdaActual.getAbajo().setArriba(celdaActual.getArriba());
+        }
+
+        // Si la celda eliminada es la primera, actualizar el puntero de inicio
+        if (celdaActual == inicio) {
+            inicio = celdaActual.getDerecha(); // O cualquier otra lógica para actualizar el inicio
+        }
+
+        System.out.println("Celda [" + fila + "," + columna + "] eliminada.");
+    }
     // Método para modificar el valor de una celda existente***
     public void modificarValor(int fila, int columna, Integer nuevoValor) {
         celda celdaActual = inicio;
