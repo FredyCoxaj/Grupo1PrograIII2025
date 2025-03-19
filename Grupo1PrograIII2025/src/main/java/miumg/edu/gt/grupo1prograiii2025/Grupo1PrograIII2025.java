@@ -20,7 +20,7 @@ public class Grupo1PrograIII2025 {
         hoja.insertar(1, 1, 4);
         hoja.insertar(1, 2, 8);
         hoja.insertar(2, 1, 10);
-        
+        /**esto imprime**/
         hoja.imprimir();
         System.out.println(hoja.obtenerValor(1, 1));
         /**System.out.println("Hola. Bienvenido al entregable #1 del grupo NO.1");

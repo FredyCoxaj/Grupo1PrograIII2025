@@ -14,58 +14,69 @@ public class hojaCalculo {
     public hojaCalculo() {
         this.inicio = null;
     }
-    
-    public void insertar(int fila, int columna, Integer valor){
-        celda nuevaCelda = new celda(valor);
-        
-        if(inicio == null){
-            inicio = nuevaCelda;
-            
+    public void insertar(int fila, int columna, Integer valor) {
+    celda nuevaCelda = new celda(valor);
+
+    if (inicio == null) {
+        inicio = nuevaCelda;
+    } else {
+        celda actualFila = inicio;
+        celda actualColumna = inicio;
+
+        // Moverse a la fila correcta
+        for (int i = 1; i < fila; i++) {
+            if (actualFila.getAbajo() == null) {
+                // Crear una nueva fila si no existe
+                celda nuevaFila = new celda(null);
+                actualFila.setAbajo(nuevaFila);
+                nuevaFila.setArriba(actualFila);
+            }
+            actualFila = actualFila.getAbajo();
+        }
+
+        // Moverse a la columna correcta
+        for (int j = 1; j < columna; j++) {
+            if (actualFila.getDerecha() == null) {
+                // Crear una nueva columna si no existe
+                celda nuevaColumna = new celda(null);
+                actualFila.setDerecha(nuevaColumna);
+                nuevaColumna.setIzquierda(actualFila);
+            }
+            actualFila = actualFila.getDerecha();
+        }
+
+        // Insertar la nueva celda en la posición correcta
+        if (actualFila.getValor() == null) {
+            // Si la celda actual está vacía, simplemente reemplazamos su valor
+            actualFila.setValor(valor);
         } else {
-            
-            //busca la pocision correcta para incestar la celda
-            celda actualFila = inicio;
-            celda actualColumna = inicio;
-            
-            //se mueve a la fila correcta
-            for(int i = 0; i < fila; i++){
-                if(actualFila.getAbajo() == null){
-                    //crea una nueva fila en caso de que no exista
-                    celda nuevaFlia = new celda(null);
-                    actualFila.setAbajo(nuevaFlia);
-                    nuevaFlia.setArriba(actualFila);
-                }
-                actualFila = actualFila.getAbajo();
-            }
-            //sincronizacion de actualColumna con actualFila
-            actualFila = actualColumna;
-            //moverses a la columna correcta
-            for(int j = 1; j < columna; j++){
-                if(actualColumna.getDerecha() == null){
-                    //crea una nueva columna
-                    celda nuevaColumna = new celda(null);
-                    actualColumna.setDerecha(nuevaColumna);
-                    nuevaColumna.setIzquierda(actualColumna);
-                }
-                actualColumna = actualColumna.getDerecha();
-            }
-            
-            //inserta la celda en la posicion correcta
-            nuevaCelda.setIzquierda(actualColumna.getIzquierda());
-            nuevaCelda.setDerecha(actualColumna);
+            // Si la celda actual no está vacía, insertamos la nueva celda
+            nuevaCelda.setIzquierda(actualFila.getIzquierda());
+            nuevaCelda.setDerecha(actualFila);
             nuevaCelda.setArriba(actualFila.getArriba());
-            nuevaCelda.setAbajo(actualFila);
-            
-            if(actualColumna.getIzquierda() != null){
-                actualColumna.getIzquierda().setDerecha(nuevaCelda);
+            nuevaCelda.setAbajo(actualFila.getAbajo());
+
+            if (actualFila.getIzquierda() != null) {
+                actualFila.getIzquierda().setDerecha(nuevaCelda);
             }
-            if(actualFila.getArriba() != null){
+            if (actualFila.getArriba() != null) {
                 actualFila.getArriba().setAbajo(nuevaCelda);
             }
-            actualColumna.setIzquierda(nuevaCelda);
-            actualFila.setArriba(nuevaCelda);
+            if (actualFila.getDerecha() != null) {
+                actualFila.getDerecha().setIzquierda(nuevaCelda);
+            }
+            if (actualFila.getAbajo() != null) {
+                actualFila.getAbajo().setArriba(nuevaCelda);
+            }
+
+            // Si la celda actual es el inicio, actualizar el puntero de inicio
+            if (actualFila == inicio) {
+                inicio = nuevaCelda;
+            }
         }
     }
+}
+   
     
     //metodo de obtencion de datos de una celda especifica
     public int obtenerValor(Integer fila, Integer columna){
