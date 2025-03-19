@@ -20,8 +20,15 @@ public class Grupo1PrograIII2025 {
         hoja.insertar(1, 1, 4);
         hoja.insertar(1, 2, 8);
         hoja.insertar(2, 1, 10);
+        hoja.insertar(3, 1, 12);
+        hoja.insertar(3, 3, 15);
+        hoja.insertar(3, 2, 9);
+        hoja.eliminarCelda(3, 2);
+        //hoja.modificarValor(3, 2, 56);
+        
         /**esto imprime**/
         hoja.imprimir();
+        System.out.println("");
         System.out.println(hoja.obtenerValor(1, 1));
         /**System.out.println("Hola. Bienvenido al entregable #1 del grupo NO.1");
         System.out.println("A continuacion te mostrare un grupo de opciones que puedes usar para");
