@@ -16,6 +16,13 @@ public class Grupo1PrograIII2025 {
         hojaCalculo hoja = new hojaCalculo();
         Integer opcion = null;
         Scanner ent = new Scanner(System.in);
+        
+        hoja.insertar(1, 1, 4);
+        hoja.insertar(1, 2, 8);
+        hoja.insertar(2, 1, 10);
+        
+        hoja.imprimir();
+        System.out.println(hoja.obtenerValor(1, 1));
         /**System.out.println("Hola. Bienvenido al entregable #1 del grupo NO.1");
         System.out.println("A continuacion te mostrare un grupo de opciones que puedes usar para");
         System.out.println("interactuar con nuestro algoritmo");
