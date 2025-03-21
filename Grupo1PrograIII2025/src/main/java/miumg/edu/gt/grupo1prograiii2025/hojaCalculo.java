@@ -100,36 +100,7 @@ public class hojaCalculo {
         return actual.getValor();
     }
     
-    // Método para insertar un valor en una celda específica***
-    public void insertarValor(int fila, int columna, Integer valor) {
-        celda celdaActual = inicio;
 
-        // Navegar hasta la fila deseada
-        for (int i = 1; i < fila; i++) {
-            if (celdaActual.getAbajo() == null) {
-                // Si no existe la fila, la creamos
-                celda nuevaFila = new celda(null);
-                celdaActual.setAbajo(nuevaFila);
-                nuevaFila.setArriba(celdaActual);
-            }
-            celdaActual = celdaActual.getAbajo();
-        }
-
-        // Navegar hasta la columna deseada
-        for (int j = 1; j < columna; j++) {
-            if (celdaActual.getDerecha() == null) {
-                // Si no existe la columna, la creamos
-                celda nuevaColumna = new celda(null);
-                celdaActual.setDerecha(nuevaColumna);
-                nuevaColumna.setIzquierda(celdaActual);
-            }
-            celdaActual = celdaActual.getDerecha();
-        }
-
-        // Asignar el valor a la celda
-        celdaActual.setValor(valor);
-    }
-    // Método para eliminar una celda en una posición específica***
    public void eliminarCelda(int fila, int columna) {
     celda celdaActual = inicio;
 
@@ -231,5 +202,4 @@ public class hojaCalculo {
             celdaActual = celdaActual.getAbajo();
         }
     }
-
 }
