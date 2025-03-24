@@ -9,13 +9,13 @@ package miumg.edu.gt.grupo1prograiii2025;
  * @author Freddy Elias
  */
 public class celda {
-    private Integer valor;
+    private Double valor;
     private celda izquierda;
     private celda derecha;
     private celda arriba;
     private celda abajo;
     
-    celda(Integer valor){
+    celda(Double valor){
         this.valor = valor;
         this.izquierda = null;
         this.derecha = null;
@@ -23,7 +23,7 @@ public class celda {
         this.abajo = null;
     }
 
-    public Integer getValor() {
+    public Double getValor() {
         return valor;
     }
 
@@ -43,7 +43,7 @@ public class celda {
         return abajo;
     }
 
-    public void setValor(Integer valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
 
@@ -61,5 +61,5 @@ public class celda {
 
     public void setAbajo(celda abajo) {
         this.abajo = abajo;
-    }
+    }   
 }
