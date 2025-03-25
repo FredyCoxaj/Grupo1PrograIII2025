@@ -204,4 +204,7 @@ public class hojaCalculo {
             celdaActual = celdaActual.getAbajo();
         }
     }
+    public celda getInicio() {
+        return inicio;
+    }
 }
