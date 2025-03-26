@@ -207,4 +207,21 @@ public class hojaCalculo {
     public celda getInicio() {
         return inicio;
     }
+    
+        public boolean validarCelda(int fila, int columna) {
+        if (fila < 1 || columna < 1) return false;
+
+        celda actual = inicio;
+        for (int i = 1; i < fila && actual != null; i++) {
+            actual = actual.getAbajo();
+        }
+
+        if (actual == null) return false;
+
+        for (int j = 1; j < columna && actual != null; j++) {
+            actual = actual.getDerecha();
+        }
+
+        return actual != null;
+    }
 }

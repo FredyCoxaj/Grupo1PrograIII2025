@@ -54,9 +54,37 @@ public class HojaCalculoGUI extends JFrame {
         JButton btnVerValor = new JButton("Ver Valor");
         btnVerValor.addActionListener(e -> verValor());
         
-        JButton btnActualizar = new JButton("----- ");
+        JButton btnActualizar = new JButton("Actualizar");
         btnActualizar.addActionListener(e -> actualizarTabla());
 
+        // Panel de operaciones matemáticas
+        JPanel panelOperaciones = new JPanel(new GridLayout(1, 4, 5, 5));
+        panelOperaciones.setBorder(BorderFactory.createTitledBorder("Operaciones"));
+
+        // Botones de operaciones
+        JButton btnSuma = new JButton("Sumar (+)");
+        btnSuma.addActionListener(e -> operarCelda("+"));
+        
+        JButton btnResta = new JButton("Restar (-)");
+        btnResta.addActionListener(e -> operarCelda("-"));
+        
+        JButton btnMultiplicacion = new JButton("Multiplicar (*)");
+        btnMultiplicacion.addActionListener(e -> operarCelda("*"));
+        
+        JButton btnDivision = new JButton("Dividir (/)");
+        btnDivision.addActionListener(e -> operarCelda("/"));
+
+        panelOperaciones.add(btnSuma);
+        panelOperaciones.add(btnResta);
+        panelOperaciones.add(btnMultiplicacion);
+        panelOperaciones.add(btnDivision);
+
+        //layout superior
+        JPanel panelSuperior = new JPanel(new BorderLayout());
+        panelSuperior.add(panelControles, BorderLayout.NORTH);
+        panelSuperior.add(panelOperaciones, BorderLayout.SOUTH);
+
+        // Componentes básicos
         panelControles.add(new JLabel("Fila:"));
         panelControles.add(filaField);
         panelControles.add(new JLabel("Columna:"));
@@ -69,7 +97,7 @@ public class HojaCalculoGUI extends JFrame {
         panelControles.add(btnVerValor);
         panelControles.add(btnActualizar);
 
-        add(panelControles, BorderLayout.NORTH);
+        add(panelSuperior, BorderLayout.NORTH);
 
         // Configurar tabla (20 filas x 10 columnas)
         modeloTabla = new DefaultTableModel(20, 10) {
@@ -174,6 +202,67 @@ public class HojaCalculoGUI extends JFrame {
             fila++;
         }
     }
+    
+        // Inicio de metodo de operaciones matematicas
+
+         private void operarCelda(String operador) {
+        try {
+            // Celda destino (donde se guardará el resultado)
+            int filaDestino = Integer.parseInt(filaField.getText());
+            int columnaDestino = Integer.parseInt(columnaField.getText());
+
+            // Pedir las celdas origen
+            String input = JOptionPane.showInputDialog(this, 
+                "Ingrese coordenadas de celdas a operar separadas por punto y coma\n" +
+                "Ejemplo: 1,1;2,2", "Operación " + operador, 
+                JOptionPane.QUESTION_MESSAGE);
+
+            if (input != null && !input.isEmpty()) {
+                String[] partes = input.split(";");
+                Double resultado = null;
+
+                for (String celda : partes) {
+                    String[] coord = celda.split(",");
+                    int fila = Integer.parseInt(coord[0].trim());
+                    int columna = Integer.parseInt(coord[1].trim());
+
+                    Double valor = hoja.obtenerValor(fila, columna);
+                    if (valor == null) {
+                        valor = 0.0;
+                    }
+
+                    if (resultado == null) {
+                        resultado = valor;
+                    } else {
+                        switch (operador) {
+                            case "+": resultado += valor; break;
+                            case "-": resultado -= valor; break;
+                            case "*": resultado *= valor; break;
+                            case "/": 
+                                if (valor == 0) {
+                                    JOptionPane.showMessageDialog(this, 
+                                        "No se puede dividir por cero", 
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                                    return;
+                                }
+                                resultado /= valor; 
+                                break;
+                        }
+                    }
+                }
+
+                hoja.insertar(filaDestino, columnaDestino, resultado);
+                actualizarTabla();
+                JOptionPane.showMessageDialog(this, 
+                    "Resultado: " + resultado + "\nGuardado en: [" + 
+                    filaDestino + "," + columnaDestino + "]");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error en formato o cálculo. Use: fila,columna;fila,columna\n" +
+                "Ejemplo: 1,1;2,2", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -181,5 +270,5 @@ public class HojaCalculoGUI extends JFrame {
             gui.setVisible(true);
         });
     }
-
 }
+    
