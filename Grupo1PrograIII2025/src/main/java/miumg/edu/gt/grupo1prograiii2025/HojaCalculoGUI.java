@@ -3,15 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package miumg.edu.gt.grupo1prograiii2025;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-/**
- *
- * @author kfsji
- */
+
 public class HojaCalculoGUI extends JFrame {
   
     private hojaCalculo hoja;
@@ -79,15 +77,15 @@ public class HojaCalculoGUI extends JFrame {
         panelOperaciones.add(btnMultiplicacion);
         panelOperaciones.add(btnDivision);
 
-        //layout superior
+        // Layout superior
         JPanel panelSuperior = new JPanel(new BorderLayout());
         panelSuperior.add(panelControles, BorderLayout.NORTH);
         panelSuperior.add(panelOperaciones, BorderLayout.SOUTH);
 
         // Componentes básicos
-        panelControles.add(new JLabel("Fila:"));
+        panelControles.add(new JLabel("Fila (número):"));
         panelControles.add(filaField);
-        panelControles.add(new JLabel("Columna:"));
+        panelControles.add(new JLabel("Columna (letra):"));
         panelControles.add(columnaField);
         panelControles.add(new JLabel("Valor:"));
         panelControles.add(valorField);
@@ -105,14 +103,12 @@ public class HojaCalculoGUI extends JFrame {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
+            
+            @Override
+            public String getColumnName(int column) {
+                return String.valueOf((char) ('A' + column)); // Columnas: A, B, C, ...
+            }
         };
-        
-        // Configurar nombres de columnas
-        String[] columnNames = new String[10];
-        for (int i = 0; i < 10; i++) {
-            columnNames[i] = "C" + (i+1);
-        }
-        modeloTabla.setColumnIdentifiers(columnNames);
         
         tabla = new JTable(modeloTabla);
         tabla.setRowHeight(25);
@@ -120,60 +116,98 @@ public class HojaCalculoGUI extends JFrame {
         add(new JScrollPane(tabla), BorderLayout.CENTER);
     }
 
+    // Convierte letra de columna a número (A->1, B->2, ...)
+    private int columnaLetraANumero(String letra) {
+        return letra.toUpperCase().charAt(0) - 'A' + 1;
+    }
+
+    // Convierte número de columna a letra (1->A, 2->B, ...)
+    private String columnaNumeroALetra(int numero) {
+        return String.valueOf((char) ('A' + numero - 1));
+    }
+
     private void insertarCelda() {
         try {
             int fila = Integer.parseInt(filaField.getText());
-            int columna = Integer.parseInt(columnaField.getText());
+            String columnaLetra = columnaField.getText().trim().toUpperCase();
+            int columna = columnaLetraANumero(columnaLetra);
             Double valor = Double.parseDouble(valorField.getText());
+            
+            if (fila < 1 || columna < 1 || columna > 10) {
+                throw new IllegalArgumentException("Fila debe ser ≥1 y columna entre A-J");
+            }
             
             hoja.insertar(fila, columna, valor);
             actualizarTabla();
-            JOptionPane.showMessageDialog(this, "Valor insertado correctamente");
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor ingrese valores numéricos válidos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Valor insertado en " + columnaLetra + fila);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error: " + e.getMessage() + "\nFormato esperado:\nFila: 1\nColumna: A", 
+                "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void modificarCelda() {
         try {
             int fila = Integer.parseInt(filaField.getText());
-            int columna = Integer.parseInt(columnaField.getText());
+            String columnaLetra = columnaField.getText().trim().toUpperCase();
+            int columna = columnaLetraANumero(columnaLetra);
             Double valor = Double.parseDouble(valorField.getText());
+            
+            if (fila < 1 || columna < 1 || columna > 10) {
+                throw new IllegalArgumentException("Fila debe ser ≥1 y columna entre A-J");
+            }
             
             hoja.modificarValor(fila, columna, valor);
             actualizarTabla();
-            JOptionPane.showMessageDialog(this, "Valor modificado correctamente");
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor ingrese valores numéricos válidos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Valor modificado en " + columnaLetra + fila);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error: " + e.getMessage() + "\nFormato esperado:\nFila: 1\nColumna: A", 
+                "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void eliminarCelda() {
         try {
             int fila = Integer.parseInt(filaField.getText());
-            int columna = Integer.parseInt(columnaField.getText());
+            String columnaLetra = columnaField.getText().trim().toUpperCase();
+            int columna = columnaLetraANumero(columnaLetra);
+            
+            if (fila < 1 || columna < 1 || columna > 10) {
+                throw new IllegalArgumentException("Fila debe ser ≥1 y columna entre A-J");
+            }
             
             hoja.eliminarCelda(fila, columna);
             actualizarTabla();
-            JOptionPane.showMessageDialog(this, "Celda eliminada (valor establecido como vacío)");
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor ingrese valores numéricos válidos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Celda " + columnaLetra + fila + " eliminada (valor establecido como vacío)");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error: " + e.getMessage() + "\nFormato esperado:\nFila: 1\nColumna: A", 
+                "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void verValor() {
         try {
             int fila = Integer.parseInt(filaField.getText());
-            int columna = Integer.parseInt(columnaField.getText());
+            String columnaLetra = columnaField.getText().trim().toUpperCase();
+            int columna = columnaLetraANumero(columnaLetra);
+            
+            if (fila < 1 || columna < 1 || columna > 10) {
+                throw new IllegalArgumentException("Fila debe ser ≥1 y columna entre A-J");
+            }
             
             Double valor = hoja.obtenerValor(fila, columna);
             if (valor != null) {
-                JOptionPane.showMessageDialog(this, "El valor en [" + fila + "," + columna + "] es: " + valor);
+                JOptionPane.showMessageDialog(this, "El valor en " + columnaLetra + fila + " es: " + valor);
             } else {
-                JOptionPane.showMessageDialog(this, "La celda está vacía o no existe", "Información", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "La celda " + columnaLetra + fila + " está vacía", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor ingrese valores numéricos válidos", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Error: " + e.getMessage() + "\nFormato esperado:\nFila: 1\nColumna: A", 
+                "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -203,29 +237,32 @@ public class HojaCalculoGUI extends JFrame {
         }
     }
     
-        // Inicio de metodo de operaciones matematicas
-
-         private void operarCelda(String operador) {
+    private void operarCelda(String operador) {
         try {
-            // Celda destino (donde se guardará el resultado)
+            // Celda destino
             int filaDestino = Integer.parseInt(filaField.getText());
-            int columnaDestino = Integer.parseInt(columnaField.getText());
+            String columnaLetraDestino = columnaField.getText().trim().toUpperCase();
+            int columnaDestino = columnaLetraANumero(columnaLetraDestino);
+            
+            if (filaDestino < 1 || columnaDestino < 1 || columnaDestino > 10) {
+                throw new IllegalArgumentException("Fila debe ser ≥1 y columna entre A-J");
+            }
 
             // Pedir las celdas origen
             String input = JOptionPane.showInputDialog(this, 
-                "Ingrese coordenadas de celdas a operar separadas por punto y coma\n" +
-                "Ejemplo: 1,1;2,2", "Operación " + operador, 
+                "Ingrese coordenadas de celdas a operar (ej: A1;B2)", "Operación " + operador, 
                 JOptionPane.QUESTION_MESSAGE);
 
             if (input != null && !input.isEmpty()) {
                 String[] partes = input.split(";");
                 Double resultado = null;
 
-                for (String celda : partes) {
-                    String[] coord = celda.split(",");
-                    int fila = Integer.parseInt(coord[0].trim());
-                    int columna = Integer.parseInt(coord[1].trim());
-
+                for (String celdaCoord : partes) {
+                    // Extraer letra de columna y número de fila (ej: "B3" -> columna=2, fila=3)
+                    String columnaLetra = celdaCoord.replaceAll("[^A-Za-z]", "").toUpperCase();
+                    int fila = Integer.parseInt(celdaCoord.replaceAll("[^0-9]", ""));
+                    int columna = columnaLetraANumero(columnaLetra);
+                    
                     Double valor = hoja.obtenerValor(fila, columna);
                     if (valor == null) {
                         valor = 0.0;
@@ -254,13 +291,13 @@ public class HojaCalculoGUI extends JFrame {
                 hoja.insertar(filaDestino, columnaDestino, resultado);
                 actualizarTabla();
                 JOptionPane.showMessageDialog(this, 
-                    "Resultado: " + resultado + "\nGuardado en: [" + 
-                    filaDestino + "," + columnaDestino + "]");
+                    "Resultado: " + resultado + "\nGuardado en: " + 
+                    columnaLetraDestino + filaDestino);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, 
-                "Error en formato o cálculo. Use: fila,columna;fila,columna\n" +
-                "Ejemplo: 1,1;2,2", "Error", JOptionPane.ERROR_MESSAGE);
+                "Error en formato o cálculo. Use: LetraNúmero;LetraNúmero\n" +
+                "Ejemplo: A1;B2", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -271,4 +308,3 @@ public class HojaCalculoGUI extends JFrame {
         });
     }
 }
-    
