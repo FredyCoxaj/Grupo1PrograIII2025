@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.stream.IntStream;
 
 public class HojaCalculoGUI extends JFrame {
   
@@ -113,7 +114,10 @@ public class HojaCalculoGUI extends JFrame {
         tabla = new JTable(modeloTabla);
         tabla.setRowHeight(25);
         
-        add(new JScrollPane(tabla), BorderLayout.CENTER);
+        //add(new JScrollPane(tabla), BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(tabla);
+        add(scrollPane, BorderLayout.CENTER);
+        agregarNumerosDeFila();  // Llama al método que creamos
     }
 
     // Convierte letra de columna a número (A->1, B->2, ...)
@@ -124,6 +128,22 @@ public class HojaCalculoGUI extends JFrame {
     // Convierte número de columna a letra (1->A, 2->B, ...)
     private String columnaNumeroALetra(int numero) {
         return String.valueOf((char) ('A' + numero - 1));
+    }
+    
+    private void agregarNumerosDeFila() {
+        // Crear un JList con los números de fila (1 al 20)
+        JList<String> listaFilas = new JList<>(IntStream.rangeClosed(1, 20)
+                .mapToObj(String::valueOf)
+                .toArray(String[]::new));
+
+        listaFilas.setFixedCellWidth(40);  // Ancho de la columna de números
+        listaFilas.setFixedCellHeight(tabla.getRowHeight());
+        listaFilas.setBackground(Color.LIGHT_GRAY);
+        listaFilas.setSelectionModel(tabla.getSelectionModel());  // Sincronizar selección
+
+        // Añadir el JList como "header" de filas
+        JScrollPane scrollPane = (JScrollPane) getContentPane().getComponent(1);  // Obtener el JScrollPane de la tabla
+        scrollPane.setRowHeaderView(listaFilas);  // Fijar el JList a la izquierda
     }
 
     private void insertarCelda() {
