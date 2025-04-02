@@ -9,6 +9,7 @@ package miumg.edu.gt.grupo1prograiii2025;
  * @author Freddy Elias
  */
 public class celda {
+    private String formula;
     private Double valor;
     private celda izquierda;
     private celda derecha;
