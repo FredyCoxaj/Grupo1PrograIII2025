@@ -17,6 +17,7 @@ import static miumg.edu.gt.grupo1prograiii2025.menuSecundario.verValorEspecifico
 public class Grupo1PrograIII2025 {
 
     public static void main(String[] args) {
+        MainMenu.main(args); 
         int opcion = 0;
         Scanner ent = new Scanner(System.in);
         
