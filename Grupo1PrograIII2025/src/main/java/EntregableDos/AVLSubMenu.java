@@ -1,8 +1,9 @@
-package miumg.edu.gt.grupo1prograiii2025;
+package EntregableDos;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import miumg.edu.gt.grupo1prograiii2025.MainMenu;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 public class AVLSubMenu extends JFrame {

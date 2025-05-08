@@ -1,5 +1,7 @@
 package miumg.edu.gt.grupo1prograiii2025;
 
+import EntregableUno.HojaCalculoGUI;
+import EntregableDos.AVLSubMenu;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,7 +20,7 @@ public class MainMenu extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
         // Título
-        JLabel lblTitulo = new JLabel("Interfaz 2 - Grupo 1");
+        JLabel lblTitulo = new JLabel("Programacion III - Grupo 1");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(lblTitulo, BorderLayout.NORTH);
@@ -31,18 +33,18 @@ public class MainMenu extends JFrame {
 
         // Panel de botones
         JPanel panelBotones = new JPanel(new GridLayout(2, 1, 10, 15));
-        
+
         JButton btnHojaCalculo = new JButton("Hoja de Cálculo");
         btnHojaCalculo.setFont(new Font("Arial", Font.BOLD, 18));
         btnHojaCalculo.addActionListener(this::abrirHojaCalculoGUI);
-        
+
         JButton btnAVL = new JButton("Árboles AVL");
         btnAVL.setFont(new Font("Arial", Font.BOLD, 18));
-        btnAVL.addActionListener(this::abrirSubmenuAVL);
-        
+        btnAVL.addActionListener(this::abrirArbolesGUI);
+
         panelBotones.add(btnHojaCalculo);
         panelBotones.add(btnAVL);
-        
+
         JPanel panelCentro = new JPanel();
         panelCentro.add(panelBotones);
         panel.add(panelCentro, BorderLayout.SOUTH);
@@ -58,19 +60,13 @@ public class MainMenu extends JFrame {
         setResizable(false);
     }
 
-    private void abrirSubmenuAVL(ActionEvent evt) {
-        new AVLSubMenu().setVisible(true);
+    private void abrirArbolesGUI(ActionEvent evt) {
+        new ArbolesGUI().setVisible(true);
         this.dispose();
     }
-    
+
     private void abrirHojaCalculoGUI(ActionEvent evt) {
         new HojaCalculoGUI().setVisible(true);
         this.dispose();
-    }
-     
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new MainMenu().setVisible(true);
-        });
     }
 }

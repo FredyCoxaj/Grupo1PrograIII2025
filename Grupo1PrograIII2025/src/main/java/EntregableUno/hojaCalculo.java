@@ -2,7 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package miumg.edu.gt.grupo1prograiii2025;
+package EntregableUno;
+
+import EntregableUno.celda;
 
 /**
  *
@@ -175,7 +177,6 @@ public class hojaCalculo {
     }
     private celda celdaActual; // Celda actualmente seleccionada
 
-
     // Método para mover a la derecha
     public void moverDerecha() {
         if (celdaActual.getDerecha() != null) {
@@ -204,19 +205,24 @@ public class hojaCalculo {
             celdaActual = celdaActual.getAbajo();
         }
     }
+
     public celda getInicio() {
         return inicio;
     }
-    
-        public boolean validarCelda(int fila, int columna) {
-        if (fila < 1 || columna < 1) return false;
+
+    public boolean validarCelda(int fila, int columna) {
+        if (fila < 1 || columna < 1) {
+            return false;
+        }
 
         celda actual = inicio;
         for (int i = 1; i < fila && actual != null; i++) {
             actual = actual.getAbajo();
         }
 
-        if (actual == null) return false;
+        if (actual == null) {
+            return false;
+        }
 
         for (int j = 1; j < columna && actual != null; j++) {
             actual = actual.getDerecha();

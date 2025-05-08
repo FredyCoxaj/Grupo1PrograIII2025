@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package miumg.edu.gt.grupo1prograiii2025;
+package EntregableUno;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.stream.IntStream;
+import miumg.edu.gt.grupo1prograiii2025.MainMenu;
 
 public class HojaCalculoGUI extends JFrame {
 
@@ -30,6 +31,11 @@ public class HojaCalculoGUI extends JFrame {
         setSize(1000, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+    }
+    
+    private void volverMenuPrincipal() {
+        new MainMenu().setVisible(true);
+        this.dispose();
     }
 
     private void crearComponentes() {
@@ -53,8 +59,8 @@ public class HojaCalculoGUI extends JFrame {
         JButton btnVerValor = new JButton("Ver Valor");
         btnVerValor.addActionListener(e -> verValor());
 
-        JButton btnActualizar = new JButton("Actualizar");
-        btnActualizar.addActionListener(e -> actualizarTabla());
+        JButton btnVolver = new JButton("Volver al Menu");
+        btnVolver.addActionListener(e -> volverMenuPrincipal());
 
         // Panel de operaciones matemáticas
         JPanel panelOperaciones = new JPanel(new GridLayout(1, 4, 5, 5));
@@ -94,7 +100,7 @@ public class HojaCalculoGUI extends JFrame {
         panelControles.add(btnModificar);
         panelControles.add(btnEliminar);
         panelControles.add(btnVerValor);
-        panelControles.add(btnActualizar);
+        panelControles.add(btnVolver);
 
         add(panelSuperior, BorderLayout.NORTH);
 
@@ -114,7 +120,6 @@ public class HojaCalculoGUI extends JFrame {
         tabla = new JTable(modeloTabla);
         tabla.setRowHeight(25);
 
-        //add(new JScrollPane(tabla), BorderLayout.CENTER);
         JScrollPane scrollPane = new JScrollPane(tabla);
         add(scrollPane, BorderLayout.CENTER);
         agregarNumerosDeFila();  // Llama al método que creamos
@@ -399,7 +404,7 @@ public class HojaCalculoGUI extends JFrame {
         }
     }
 
-// Método auxiliar para aplicar operaciones
+// Metodo auxiliar para aplicar operaciones
     private Double aplicarOperacion(Double acumulado, Double valor, String operador) {
         switch (operador) {
             case "+":
@@ -418,10 +423,4 @@ public class HojaCalculoGUI extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            HojaCalculoGUI gui = new HojaCalculoGUI();
-            gui.setVisible(true);
-        });
-    }
 }
