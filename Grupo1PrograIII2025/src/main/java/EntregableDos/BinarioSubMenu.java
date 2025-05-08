@@ -4,10 +4,12 @@
  */
 package EntregableDos;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author Freddy Elias
  */
-public class BinarioSubMenu {
+public class BinarioSubMenu extends JFrame{
     
 }

@@ -2,6 +2,7 @@ package miumg.edu.gt.grupo1prograiii2025;
 
 import EntregableUno.HojaCalculoGUI;
 import EntregableDos.AVLSubMenu;
+import EntregableDos.ArbolesGUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

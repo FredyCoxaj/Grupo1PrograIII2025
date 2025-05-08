@@ -9,5 +9,14 @@ package EntregableDos;
  * @author Freddy Elias
  */
 public class NodoAVL {
-    
+    int clave;
+    int altura;
+    NodoAVL izquierdo;
+    NodoAVL derecho;
+
+    public NodoAVL(int clave) {
+        this.clave = clave;
+        this.altura = 1;
+    }
 }
+
