@@ -35,11 +35,11 @@ public class MainMenu extends JFrame {
         // Panel de botones
         JPanel panelBotones = new JPanel(new GridLayout(2, 1, 10, 15));
 
-        JButton btnHojaCalculo = new JButton("Hoja de Cálculo");
+        JButton btnHojaCalculo = new JButton("Hoja de Calculo");
         btnHojaCalculo.setFont(new Font("Arial", Font.BOLD, 18));
         btnHojaCalculo.addActionListener(this::abrirHojaCalculoGUI);
 
-        JButton btnAVL = new JButton("Árboles AVL");
+        JButton btnAVL = new JButton("Arboles");
         btnAVL.setFont(new Font("Arial", Font.BOLD, 18));
         btnAVL.addActionListener(this::abrirArbolesGUI);
 
@@ -54,7 +54,7 @@ public class MainMenu extends JFrame {
     }
 
     private void configurarVentana() {
-        setTitle("Menú Principal");
+        setTitle("Menu Principal");
         setSize(600, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -70,4 +70,5 @@ public class MainMenu extends JFrame {
         new HojaCalculoGUI().setVisible(true);
         this.dispose();
     }
+
 }

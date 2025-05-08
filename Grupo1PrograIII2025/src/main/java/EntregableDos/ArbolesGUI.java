@@ -38,7 +38,7 @@ public class ArbolesGUI extends JFrame{
         JPanel panelBotones = new JPanel(new GridLayout(3, 1, 10, 15));
         
         JButton btnBinario = new JButton("Arbol Binario");
-        //btnBinario.addActionListener(e -> AbrirBinario());
+        btnBinario.addActionListener(e -> AbrirBinario());
         
         JButton btnAVL = new JButton("Arbol AVL");
         btnAVL.addActionListener(e -> AbrirAVL());
@@ -52,7 +52,7 @@ public class ArbolesGUI extends JFrame{
         
         panel.add(panelBotones, BorderLayout.CENTER);
         
-        JLabel lblPie = new JLabel("Seleccione una operación");
+        JLabel lblPie = new JLabel("Seleccione una operacion");
         lblPie.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(lblPie, BorderLayout.SOUTH);
 
@@ -76,9 +76,8 @@ public class ArbolesGUI extends JFrame{
         this.dispose();
     }
     
-    /*private void AbrirBinario() {
-        new AbrirBinario().setVisible(true);
+    private void AbrirBinario() {
+        new BinarioSubMenu().setVisible(true);
         this.dispose();
-    }*/
+    }
 }
-
