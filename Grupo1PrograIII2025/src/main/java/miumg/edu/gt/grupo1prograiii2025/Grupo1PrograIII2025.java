@@ -6,8 +6,6 @@ package miumg.edu.gt.grupo1prograiii2025;
 
 import EntregableDos.DatabaseConnection;
 import javax.swing.SwingUtilities;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;

@@ -311,17 +311,4 @@ public class BinarioSubMenu extends JFrame {
         ex.printStackTrace();
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                Connection testConn = DatabaseConnection.getConnection();
-                new BinarioSubMenu(testConn).setVisible(true);
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null,
-                    "Error de conexión: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            }
-        });
-    }
 }

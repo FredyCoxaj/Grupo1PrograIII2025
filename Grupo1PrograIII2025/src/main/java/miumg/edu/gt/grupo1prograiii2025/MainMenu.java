@@ -59,7 +59,7 @@ public class MainMenu extends JFrame {
         panelPrincipal.add(panelCentral, BorderLayout.CENTER);
 
         // Pie de página
-        JLabel lblVersion = new JLabel("Versión 1.0 - © 2024 Universidad Mariano Gálvez", SwingConstants.CENTER);
+        JLabel lblVersion = new JLabel("Versión 1.0 - © 2025 Universidad Mariano Gálvez", SwingConstants.CENTER);
         lblVersion.setFont(new Font("Segoe UI", Font.ITALIC, 12));
         panelPrincipal.add(lblVersion, BorderLayout.SOUTH);
 
@@ -159,20 +159,27 @@ public class MainMenu extends JFrame {
         ex.printStackTrace();
     }
 
-    public static void main(String[] args) {
-        // Solo para pruebas locales
-        SwingUtilities.invokeLater(() -> {
-            try {
-                Connection testConn = DatabaseConnection.getConnection();
-                new MainMenu(testConn).setVisible(true);
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(
-                    null,
-                    "Error crítico: No se pudo conectar a la base de datos\n" + e.getMessage(),
-                    "Error de Inicio",
-                    JOptionPane.ERROR_MESSAGE
-                );
-            }
-        });
-    }
+        /*
+
+                    public static void main(String[] args) {
+                        // Solo para pruebas locales
+                        SwingUtilities.invokeLater(() -> {
+                            try {
+                                Connection testConn = DatabaseConnection.getConnection();
+                                new MainMenu(testConn).setVisible(true);
+                            } catch (SQLException e) {
+                                JOptionPane.showMessageDialog(
+                                    null,
+                                    "Error crítico: No se pudo conectar a la base de datos\n" + e.getMessage(),
+                                    "Error de Inicio",
+                                    JOptionPane.ERROR_MESSAGE
+                                );
+                            }
+
+
+
+                        });
+
+                    }
+        */
 }

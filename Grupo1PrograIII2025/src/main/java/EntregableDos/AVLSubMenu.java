@@ -308,12 +308,4 @@ public class AVLSubMenu extends JFrame {
     }
 }
 
-// BLOQUEADO POR LA PRUEBA   
-//  private void configurarVentana() {
-//       setTitle("Árbol AVL");
-//       setSize(600, 500);
-//       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//      setLayout(new BorderLayout(10, 10));
-//       getContentPane().setBackground(new Color(240, 240, 240));
-//   }
 
