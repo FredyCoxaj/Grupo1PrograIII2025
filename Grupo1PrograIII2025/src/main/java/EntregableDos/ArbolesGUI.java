@@ -4,80 +4,144 @@
  */
 package EntregableDos;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import javax.swing.*;
 import miumg.edu.gt.grupo1prograiii2025.MainMenu;
 
 /**
  *
  * @author Freddy Elias
  */
-public class ArbolesGUI extends JFrame{
-    public ArbolesGUI() {
+public class ArbolesGUI extends JFrame {
+    private final Connection conexion;
+    private JButton btnBinario, btnAVL, btnVolver;
+
+    public ArbolesGUI(Connection conexion) {
+        this.conexion = conexion;
         initComponents();
         configurarVentana();
     }
-    
+
     private void initComponents() {
+        // Panel principal con borde y espaciado
         JPanel panel = new JPanel(new BorderLayout(10, 20));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
-        JLabel lblTitulo = new JLabel("Operaciones con Arboles");
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
-        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Título centrado
+        JLabel lblTitulo = new JLabel("Operaciones con Árboles", SwingConstants.CENTER);
+        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 24));
         panel.add(lblTitulo, BorderLayout.NORTH);
+
+        // Panel de botones con grid layout
+        JPanel panelBotones = new JPanel(new GridLayout(3, 1, 15, 15));
         
-        JPanel panelBotones = new JPanel(new GridLayout(3, 1, 10, 15));
+        // Botón para árbol binario
+        btnBinario = crearBotonEstilado("Árbol Binario", e -> abrirBinario());
         
-        JButton btnBinario = new JButton("Arbol Binario");
-        btnBinario.addActionListener(e -> AbrirBinario());
+        // Botón para árbol AVL
+        btnAVL = crearBotonEstilado("Árbol AVL", e -> abrirAVL());
         
-        JButton btnAVL = new JButton("Arbol AVL");
-        btnAVL.addActionListener(e -> AbrirAVL());
-        
-        JButton btnVolver = new JButton("Volver al Menu");
-        btnVolver.addActionListener(e -> volverMenuPrincipal());
-        
+        // Botón para volver
+        btnVolver = crearBotonEstilado("Volver al Menú", e -> volverMenuPrincipal());
+
         panelBotones.add(btnBinario);
         panelBotones.add(btnAVL);
         panelBotones.add(btnVolver);
-        
+
         panel.add(panelBotones, BorderLayout.CENTER);
-        
-        JLabel lblPie = new JLabel("Seleccione una operacion");
-        lblPie.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Pie de página
+        JLabel lblPie = new JLabel("Seleccione una operación", SwingConstants.CENTER);
+        lblPie.setFont(new Font("Segoe UI", Font.ITALIC, 12));
         panel.add(lblPie, BorderLayout.SOUTH);
 
-        this.add(panel);
+        add(panel);
     }
-    
+
+    private JButton crearBotonEstilado(String texto, ActionListener listener) {
+        JButton boton = new JButton(texto);
+        boton.addActionListener(listener);
+        boton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        boton.setBackground(new Color(70, 130, 180));
+        boton.setForeground(Color.WHITE);
+        boton.setFocusPainted(false);
+        boton.setPreferredSize(new Dimension(200, 50));
+        return boton;
+    }
+
     private void configurarVentana() {
-        setTitle("Arboles");
+        setTitle("Gestión de Árboles - Universidad Mariano Gálvez");
         setSize(500, 400);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        // Icono de la ventana
+        try {
+            setIconImage(new ImageIcon(getClass().getResource("/resources/arbol_icon.png")).getImage());
+        } catch (Exception e) {
+            System.err.println("Error al cargar icono: " + e.getMessage());
+        }
     }
-    
+
+    private void abrirBinario() {
+        try {
+            BinarioSubMenu binarioMenu = new BinarioSubMenu(conexion);
+            binarioMenu.setVisible(true);
+            this.dispose();
+        } catch (Exception e) {
+            mostrarError("Error al abrir Árbol Binario", e);
+        }
+    }
+
+    private void abrirAVL() {
+        try {
+            if (conexion == null || conexion.isClosed()) {
+                throw new SQLException("No hay conexión activa a la BD");
+            }
+            AVLSubMenu avlMenu = new AVLSubMenu(conexion);
+            avlMenu.setVisible(true);
+            this.dispose();
+        } catch (SQLException e) {
+            mostrarError("Error de conexión con la BD", e);
+        } catch (Exception e) {
+            mostrarError("Error al abrir Árbol AVL", e);
+        }
+    }
+
     private void volverMenuPrincipal() {
-        new MainMenu().setVisible(true);
-        this.dispose();
+        try {
+            MainMenu mainMenu = new MainMenu(conexion);
+            mainMenu.setVisible(true);
+            this.dispose();
+        } catch (Exception e) {
+            mostrarError("Error al volver al menú", e);
+        }
     }
-    
-    private void AbrirAVL() {
-        new AVLSubMenu().setVisible(true);
-        this.dispose();
+
+    private void mostrarError(String mensaje, Exception e) {
+        JOptionPane.showMessageDialog(
+            this,
+            mensaje + ":\n" + e.getMessage(),
+            "Error",
+            JOptionPane.ERROR_MESSAGE
+        );
+        e.printStackTrace();
     }
-    
-    private void AbrirBinario() {
-        new BinarioSubMenu().setVisible(true);
-        this.dispose();
+
+    public static void main(String[] args) {
+        // Solo para pruebas - No usar en producción
+        SwingUtilities.invokeLater(() -> {
+            try {
+                Connection testConn = DatabaseConnection.getConnection();
+                new ArbolesGUI(testConn).setVisible(true);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error de conexión: " + e.getMessage(), 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
     }
 }

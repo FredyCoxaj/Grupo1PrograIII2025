@@ -1,74 +1,178 @@
 package miumg.edu.gt.grupo1prograiii2025;
 
-import EntregableUno.HojaCalculoGUI;
-import EntregableDos.AVLSubMenu;
 import EntregableDos.ArbolesGUI;
+import EntregableDos.DatabaseConnection;
+import EntregableUno.HojaCalculoGUI;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 
+/**
+ * Menú principal del sistema con conexión a base de datos
+ * @author Freddy Elias
+ */
 public class MainMenu extends JFrame {
+    private final Connection conexion;
+    private JButton btnArboles, btnHojaCalculo, btnSalir;
 
-    public MainMenu() {
+    public MainMenu(Connection conexion) {
+        this.conexion = conexion;
         initComponents();
         configurarVentana();
+        configurarEventosCierre();
     }
 
     private void initComponents() {
-        // Panel principal
-        JPanel panel = new JPanel(new BorderLayout(20, 20));
-        panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+        // Panel principal con diseño BorderLayout
+        JPanel panelPrincipal = new JPanel(new BorderLayout(10, 20));
+        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
 
-        // Título
-        JLabel lblTitulo = new JLabel("Programacion III - Grupo 1");
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
-        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(lblTitulo, BorderLayout.NORTH);
+        // Título centrado
+        JLabel lblTitulo = new JLabel("Sistema de Estructuras de Datos", SwingConstants.CENTER);
+        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        panelPrincipal.add(lblTitulo, BorderLayout.NORTH);
 
-        // Descripción
-        JLabel txtDescripcion = new JLabel("Seleccione el módulo que desea utilizar:");
-        txtDescripcion.setFont(new Font("Arial", Font.PLAIN, 16));
-        txtDescripcion.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(txtDescripcion, BorderLayout.CENTER);
+        // Panel central con GridBagLayout para mejor control
+        JPanel panelCentral = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(15, 15, 15, 15);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Panel de botones
-        JPanel panelBotones = new JPanel(new GridLayout(2, 1, 10, 15));
+        // Botón para módulo de árboles
+        btnArboles = crearBoton("Árboles Binarios/AVL", e -> abrirModuloArboles());
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panelCentral.add(btnArboles, gbc);
 
-        JButton btnHojaCalculo = new JButton("Hoja de Calculo");
-        btnHojaCalculo.setFont(new Font("Arial", Font.BOLD, 18));
-        btnHojaCalculo.addActionListener(this::abrirHojaCalculoGUI);
+        // Botón para hoja de cálculo
+        btnHojaCalculo = crearBoton("Hoja de Cálculo", e -> abrirHojaCalculo());
+        gbc.gridy = 1;
+        panelCentral.add(btnHojaCalculo, gbc);
 
-        JButton btnAVL = new JButton("Arboles");
-        btnAVL.setFont(new Font("Arial", Font.BOLD, 18));
-        btnAVL.addActionListener(this::abrirArbolesGUI);
+        // Botón para salir
+        btnSalir = crearBoton("Salir del Sistema", e -> cerrarAplicacion());
+        gbc.gridy = 2;
+        panelCentral.add(btnSalir, gbc);
 
-        panelBotones.add(btnHojaCalculo);
-        panelBotones.add(btnAVL);
+        panelPrincipal.add(panelCentral, BorderLayout.CENTER);
 
-        JPanel panelCentro = new JPanel();
-        panelCentro.add(panelBotones);
-        panel.add(panelCentro, BorderLayout.SOUTH);
+        // Pie de página
+        JLabel lblVersion = new JLabel("Versión 1.0 - © 2024 Universidad Mariano Gálvez", SwingConstants.CENTER);
+        lblVersion.setFont(new Font("Segoe UI", Font.ITALIC, 12));
+        panelPrincipal.add(lblVersion, BorderLayout.SOUTH);
 
-        this.add(panel);
+        add(panelPrincipal);
+    }
+
+    private JButton crearBoton(String texto, ActionListener listener) {
+        JButton boton = new JButton(texto);
+        boton.addActionListener(listener);
+        boton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        boton.setBackground(new Color(70, 130, 180));
+        boton.setForeground(Color.WHITE);
+        boton.setFocusPainted(false);
+        boton.setPreferredSize(new Dimension(250, 50));
+        return boton;
     }
 
     private void configurarVentana() {
-        setTitle("Menu Principal");
-        setSize(600, 400);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setTitle("Menú Principal - Grupo 1 Programación III");
+        setSize(600, 500);
         setLocationRelativeTo(null);
-        setResizable(false);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // Se maneja en windowListener
+        
+        // Establecer icono
+        try {
+            setIconImage(new ImageIcon(getClass().getResource("/images/icono_app.png")).getImage());
+        } catch (Exception e) {
+            System.err.println("Error al cargar icono: " + e.getMessage());
+        }
     }
 
-    private void abrirArbolesGUI(ActionEvent evt) {
-        new ArbolesGUI().setVisible(true);
-        this.dispose();
+    private void configurarEventosCierre() {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                cerrarAplicacion();
+            }
+        });
     }
 
-    private void abrirHojaCalculoGUI(ActionEvent evt) {
-        new HojaCalculoGUI().setVisible(true);
-        this.dispose();
+    private void abrirModuloArboles() {
+        try {
+            validarConexionActiva();
+            new ArbolesGUI(conexion).setVisible(true);
+            this.dispose();
+        } catch (SQLException ex) {
+            mostrarError("Error al acceder al módulo de Árboles", ex);
+        }
     }
 
+    private void abrirHojaCalculo() {
+        try {
+            new HojaCalculoGUI().setVisible(true);
+            this.dispose();
+        } catch (Exception ex) {
+            mostrarError("Error al abrir Hoja de Cálculo", ex);
+        }
+    }
+
+    private void cerrarAplicacion() {
+        int confirmacion = JOptionPane.showConfirmDialog(
+            this,
+            "¿Está seguro que desea salir del sistema?",
+            "Confirmar Salida",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            cerrarConexion();
+            System.exit(0);
+        }
+    }
+
+    private void validarConexionActiva() throws SQLException {
+        if (conexion == null || conexion.isClosed()) {
+            throw new SQLException("No hay conexión activa con la base de datos");
+        }
+    }
+
+    private void cerrarConexion() {
+        try {
+            if (conexion != null && !conexion.isClosed()) {
+                conexion.close();
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al cerrar conexión: " + ex.getMessage());
+        }
+    }
+
+    private void mostrarError(String mensaje, Exception ex) {
+        JOptionPane.showMessageDialog(
+            this,
+            mensaje + ":\n" + ex.getMessage(),
+            "Error del Sistema",
+            JOptionPane.ERROR_MESSAGE
+        );
+        ex.printStackTrace();
+    }
+
+    public static void main(String[] args) {
+        // Solo para pruebas locales
+        SwingUtilities.invokeLater(() -> {
+            try {
+                Connection testConn = DatabaseConnection.getConnection();
+                new MainMenu(testConn).setVisible(true);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Error crítico: No se pudo conectar a la base de datos\n" + e.getMessage(),
+                    "Error de Inicio",
+                    JOptionPane.ERROR_MESSAGE
+                );
+            }
+        });
+    }
 }

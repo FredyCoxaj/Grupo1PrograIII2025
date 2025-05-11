@@ -4,17 +4,29 @@
 
 package miumg.edu.gt.grupo1prograiii2025;
 
+import EntregableDos.DatabaseConnection;
 import javax.swing.SwingUtilities;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import java.sql.Connection;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Freddy Elias
  */
-public class Grupo1PrograIII2025 extends JFrame{
-public static void main(String[] args) {
+public class Grupo1PrograIII2025 {
+    public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new MainMenu().setVisible(true);
+            try {
+                Connection conexion = DatabaseConnection.getConnection();
+                new MainMenu(conexion).setVisible(true);
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error al conectar a la base de datos: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
     }
 }

@@ -4,11 +4,12 @@
  */
 package EntregableUno;
 
+import EntregableDos.DatabaseConnection;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.stream.IntStream;
 import miumg.edu.gt.grupo1prograiii2025.MainMenu;
 
@@ -34,8 +35,15 @@ public class HojaCalculoGUI extends JFrame {
     }
     
     private void volverMenuPrincipal() {
-        new MainMenu().setVisible(true);
-        this.dispose();
+        try {
+            Connection conexion = DatabaseConnection.getConnection();
+            new MainMenu(conexion).setVisible(true);
+            this.dispose();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this,
+                "Error al conectar a la base de datos: " + ex.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void crearComponentes() {
