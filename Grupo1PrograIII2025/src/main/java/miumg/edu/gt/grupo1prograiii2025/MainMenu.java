@@ -1,7 +1,7 @@
 package miumg.edu.gt.grupo1prograiii2025;
 
 import EntregableDos.ArbolesGUI;
-import EntregableDos.DatabaseConnection;
+import EntregableTres.WorstFitGUI;
 import EntregableUno.HojaCalculoGUI;
 import javax.swing.*;
 import java.awt.*;
@@ -11,11 +11,13 @@ import java.sql.SQLException;
 
 /**
  * Menú principal del sistema con conexión a base de datos
+ *
  * @author Freddy Elias
  */
 public class MainMenu extends JFrame {
+
     private final Connection conexion;
-    private JButton btnArboles, btnHojaCalculo, btnSalir;
+    private JButton btnArboles, btnHojaCalculo, btnMemoria, btnSalir;
 
     public MainMenu(Connection conexion) {
         this.conexion = conexion;
@@ -46,6 +48,11 @@ public class MainMenu extends JFrame {
         gbc.gridy = 0;
         panelCentral.add(btnArboles, gbc);
 
+        // Botón para Ajustes de memoria
+        btnMemoria = crearBoton("Ajustes de Memoria", e -> abrirAjustesMemoria());
+        gbc.gridy = 2;
+        panelCentral.add(btnMemoria, gbc);
+
         // Botón para hoja de cálculo
         btnHojaCalculo = crearBoton("Hoja de Cálculo", e -> abrirHojaCalculo());
         gbc.gridy = 1;
@@ -53,7 +60,7 @@ public class MainMenu extends JFrame {
 
         // Botón para salir
         btnSalir = crearBoton("Salir del Sistema", e -> cerrarAplicacion());
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         panelCentral.add(btnSalir, gbc);
 
         panelPrincipal.add(panelCentral, BorderLayout.CENTER);
@@ -82,13 +89,8 @@ public class MainMenu extends JFrame {
         setSize(600, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // Se maneja en windowListener
-        
+
         // Establecer icono
-        try {
-            setIconImage(new ImageIcon(getClass().getResource("/images/icono_app.png")).getImage());
-        } catch (Exception e) {
-            System.err.println("Error al cargar icono: " + e.getMessage());
-        }
     }
 
     private void configurarEventosCierre() {
@@ -110,6 +112,41 @@ public class MainMenu extends JFrame {
         }
     }
 
+    private void abrirAjustesMemoria() {
+        try {
+            validarConexionActiva();
+
+            // Pedir al usuario el tamaño de memoria
+            String input = JOptionPane.showInputDialog(
+                    this,
+                    "Ingrese el tamaño total de memoria para el simulador:",
+                    "Configuración del Simulador",
+                    JOptionPane.QUESTION_MESSAGE
+            );
+
+            try {
+                int tamaño = Integer.parseInt(input);
+                if (tamaño <= 0) {
+                    throw new NumberFormatException();
+                }
+
+                // Crear y mostrar el simulador
+                new WorstFitGUI(tamaño, this).setVisible(true);
+                this.dispose();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Debe ingresar un número válido mayor que 0",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        } catch (SQLException ex) {
+            mostrarError("Error al acceder al módulo de Ajustes de Memoria", ex);
+        }
+
+    }
+
     private void abrirHojaCalculo() {
         try {
             new HojaCalculoGUI().setVisible(true);
@@ -121,10 +158,10 @@ public class MainMenu extends JFrame {
 
     private void cerrarAplicacion() {
         int confirmacion = JOptionPane.showConfirmDialog(
-            this,
-            "¿Está seguro que desea salir del sistema?",
-            "Confirmar Salida",
-            JOptionPane.YES_NO_OPTION
+                this,
+                "¿Está seguro que desea salir del sistema?",
+                "Confirmar Salida",
+                JOptionPane.YES_NO_OPTION
         );
 
         if (confirmacion == JOptionPane.YES_OPTION) {
@@ -151,35 +188,12 @@ public class MainMenu extends JFrame {
 
     private void mostrarError(String mensaje, Exception ex) {
         JOptionPane.showMessageDialog(
-            this,
-            mensaje + ":\n" + ex.getMessage(),
-            "Error del Sistema",
-            JOptionPane.ERROR_MESSAGE
+                this,
+                mensaje + ":\n" + ex.getMessage(),
+                "Error del Sistema",
+                JOptionPane.ERROR_MESSAGE
         );
         ex.printStackTrace();
     }
 
-        /*
-
-                    public static void main(String[] args) {
-                        // Solo para pruebas locales
-                        SwingUtilities.invokeLater(() -> {
-                            try {
-                                Connection testConn = DatabaseConnection.getConnection();
-                                new MainMenu(testConn).setVisible(true);
-                            } catch (SQLException e) {
-                                JOptionPane.showMessageDialog(
-                                    null,
-                                    "Error crítico: No se pudo conectar a la base de datos\n" + e.getMessage(),
-                                    "Error de Inicio",
-                                    JOptionPane.ERROR_MESSAGE
-                                );
-                            }
-
-
-
-                        });
-
-                    }
-        */
 }

@@ -173,11 +173,6 @@ public class BinarioSubMenu extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
-        try {
-            setIconImage(new ImageIcon(getClass().getResource("/resources/tree_icon.png")).getImage());
-        } catch (Exception e) {
-            System.err.println("Error al cargar icono: " + e.getMessage());
-        }
     }
 
     private void accionInsertar(ActionEvent e) {

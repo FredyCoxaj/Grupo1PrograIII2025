@@ -16,8 +16,9 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=ArbolesDB;encrypt=true;trustServerCertificate=true;";
-    private static final String USER = "sa";
-    private static final String PASSWORD = "2025";
+    //MODIFICAR PARA SU USUARIO DE BD
+    private static final String USER = "UsuarioUMG";
+    private static final String PASSWORD = "231124";
 
     public static Connection getConnection() throws SQLException {
         try {

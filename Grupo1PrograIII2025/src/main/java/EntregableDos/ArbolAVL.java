@@ -30,7 +30,7 @@ public class ArbolAVL {
         NodoAVL x = y.izquierdo;
         NodoAVL T2 = x.derecho;
 
-        // Realizar rotación
+        // rotacion
         x.derecho = y;
         y.izquierdo = T2;
 
@@ -38,7 +38,7 @@ public class ArbolAVL {
         y.altura = Math.max(altura(y.izquierdo), altura(y.derecho)) + 1;
         x.altura = Math.max(altura(x.izquierdo), altura(x.derecho)) + 1;
 
-        // Retornar nueva raíz
+        // Retornar nueva raiz
         return x;
     }
 

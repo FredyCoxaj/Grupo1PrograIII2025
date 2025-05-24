@@ -110,10 +110,13 @@ public class AVLSubMenu extends JFrame {
         g.drawOval(x - diametro / 2, y - diametro / 2, diametro, diametro);
 
         // Dibujar valor y altura
-        String texto = nodo.clave + " (h:" + nodo.altura + ")";
+        
+        /*String texto = "(" + nodo.clave + ")" ;*/
+        String texto = String.valueOf(nodo.clave);
         FontMetrics fm = g.getFontMetrics();
         g.drawString(texto, x - fm.stringWidth(texto) / 2, y + fm.getAscent() / 2);
-
+        
+        
         // Dibujar conexiones
         if (nodo.izquierdo != null) {
             int x2 = x - separacion;
