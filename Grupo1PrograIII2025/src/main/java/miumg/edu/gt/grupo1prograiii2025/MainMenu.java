@@ -1,6 +1,7 @@
 package miumg.edu.gt.grupo1prograiii2025;
 
 import EntregableDos.ArbolesGUI;
+import EntregableTres.MenuAjustes;
 import EntregableTres.WorstFitGUI;
 import EntregableUno.HojaCalculoGUI;
 import javax.swing.*;
@@ -114,37 +115,13 @@ public class MainMenu extends JFrame {
 
     private void abrirAjustesMemoria() {
         try {
-            validarConexionActiva();
-
-            // Pedir al usuario el tamaño de memoria
-            String input = JOptionPane.showInputDialog(
-                    this,
-                    "Ingrese el tamaño total de memoria para el simulador:",
-                    "Configuración del Simulador",
-                    JOptionPane.QUESTION_MESSAGE
-            );
-
-            try {
-                int tamaño = Integer.parseInt(input);
-                if (tamaño <= 0) {
-                    throw new NumberFormatException();
-                }
-
-                // Crear y mostrar el simulador
-                new WorstFitGUI(tamaño, this).setVisible(true);
-                this.dispose();
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Debe ingresar un número válido mayor que 0",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
-            }
-        } catch (SQLException ex) {
-            mostrarError("Error al acceder al módulo de Ajustes de Memoria", ex);
-        }
-
+        validarConexionActiva();
+        MenuAjustes ajustes = new MenuAjustes(null); // Pasa null si no necesitas volver
+        ajustes.setVisible(true);
+        this.dispose();
+    } catch (SQLException ex) {
+        mostrarError("Error al acceder al módulo de Ajustes de Memoria", ex);
+    }
     }
 
     private void abrirHojaCalculo() {

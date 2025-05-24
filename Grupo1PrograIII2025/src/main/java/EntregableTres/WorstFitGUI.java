@@ -54,7 +54,7 @@ public class WorstFitGUI extends JFrame {
         JPanel topPanel = new JPanel(new BorderLayout());
         
         // Botón de volver
-        JButton backButton = new JButton("Volver a la ventana principal");
+        JButton backButton = new JButton("Volver al menu");
         backButton.addActionListener(e -> returnToMainWindow());
         topPanel.add(backButton, BorderLayout.WEST);
         
