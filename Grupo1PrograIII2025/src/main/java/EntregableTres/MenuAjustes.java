@@ -147,8 +147,35 @@ public class MenuAjustes extends JFrame {
     }
 
     private void abrirFirstFit() {
+    try {
+        // Pedir tamaño de memoria al usuario
+        String input = JOptionPane.showInputDialog(
+                this,
+                "Ingrese el tamaño total de memoria:",
+                "Configuración First Fit",
+                JOptionPane.QUESTION_MESSAGE
+        );
 
+        if (input != null) { // Si el usuario no cancela
+            int tamaño = Integer.parseInt(input);
+            if (tamaño > 0) {
+                new FirstFitGUI(tamaño, this).setVisible(true);
+                this.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Debe ingresar un número mayor que 0",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        }
+    } catch (NumberFormatException ex) {
+        mostrarError("Debe ingresar un número válido", ex);
+    } catch (Exception ex) {
+        mostrarError("Error al abrir First Fit", ex);
     }
+}
 
     private void accionVolver() {
         try {
