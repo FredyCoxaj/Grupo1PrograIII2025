@@ -53,7 +53,7 @@ public class WorstFitGUI extends JFrame {
         // Panel de controles superior
         JPanel topPanel = new JPanel(new BorderLayout());
         
-        // Botón de volver
+        // Boton de volver
         JButton backButton = new JButton("Volver al menu");
         backButton.addActionListener(e -> returnToMainWindow());
         topPanel.add(backButton, BorderLayout.WEST);
@@ -100,7 +100,7 @@ public class WorstFitGUI extends JFrame {
         memoriaPanel.setPreferredSize(new Dimension(750, 150));
         memoriaPanel.setBorder(BorderFactory.createTitledBorder("Mapa de Memoria"));
         
-        // Área de registro
+        // Area de registro
         logArea = new JTextArea();
         logArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(logArea);
@@ -122,13 +122,13 @@ public class WorstFitGUI extends JFrame {
     }
     
     private void returnToMainWindow() {
-        this.dispose(); // Cierra la ventana del simulador
+        this.dispose(); // Cierra la ventana
         if (parentWindow != null) {
             parentWindow.setVisible(true); // Muestra la ventana principal
         }
     }
     
-    // ... [los métodos dibujarMemoria, asignarMemoria, liberarMemoria y log permanecen iguales]
+    //dibujarMemoria  y log permanecen iguales
     private void dibujarMemoria(Graphics g) {
         int panelWidth = memoriaPanel.getWidth() - 20;
         int y = 30;
@@ -166,6 +166,7 @@ public class WorstFitGUI extends JFrame {
         }
     }
     
+    //asignarMemoria
     private void asignarMemoria() {
         try {
             int tamaño = Integer.parseInt(sizeField.getText());
@@ -227,6 +228,7 @@ public class WorstFitGUI extends JFrame {
         }
     }
     
+    //liberarMemoria 
     private void liberarMemoria() {
         try {
             int inicio = Integer.parseInt(addressField.getText());
@@ -253,7 +255,7 @@ public class WorstFitGUI extends JFrame {
             }
 
             // Fusionar con bloques libres adyacentes
-            // Fusionar con el siguiente si está libre
+            // Fusionar con el siguiente si esta libre
             if (indice < memoria.size() - 1) {
                 BloqueMemoria actual = memoria.get(indice);
                 BloqueMemoria siguiente = memoria.get(indice + 1);

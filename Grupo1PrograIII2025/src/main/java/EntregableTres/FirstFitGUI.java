@@ -49,7 +49,7 @@ public class FirstFitGUI extends JFrame {
         // Panel de controles superior
         JPanel topPanel = new JPanel(new BorderLayout());
         
-        // Botón de volver
+        // Boton de volver
         JButton backButton = new JButton("Volver al menu");
         backButton.addActionListener(e -> returnToMainWindow());
         topPanel.add(backButton, BorderLayout.WEST);
@@ -85,7 +85,7 @@ public class FirstFitGUI extends JFrame {
         
         topPanel.add(controlPanel, BorderLayout.CENTER);
         
-        // Panel de visualización de memoria
+        // Panel de visualizacion de memoria
         memoriaPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -96,7 +96,7 @@ public class FirstFitGUI extends JFrame {
         memoriaPanel.setPreferredSize(new Dimension(750, 150));
         memoriaPanel.setBorder(BorderFactory.createTitledBorder("Mapa de Memoria"));
         
-        // Área de registro
+        // Area de registro
         logArea = new JTextArea();
         logArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(logArea);
@@ -142,9 +142,9 @@ public class FirstFitGUI extends JFrame {
             int blockWidth = (int)((double)bloque.tamaño / tamañoTotal * panelWidth);
             
             if (bloque.ocupado) {
-                g.setColor(new Color(255, 100, 100)); // Rojo para bloques ocupados
+                g.setColor(new Color(255, 100, 100)); // Rojo bloques ocupados
             } else {
-                g.setColor(new Color(100, 255, 100)); // Verde para bloques libres
+                g.setColor(new Color(100, 255, 100)); // Verde bloques libres
             }
             
             g.fillRect(10, y, blockWidth, 30);
@@ -170,7 +170,7 @@ public class FirstFitGUI extends JFrame {
                 proceso = "P" + nextProcessId++;
             }
             
-            // Buscar el primer bloque libre que pueda contener la solicitud (First Fit)
+            // Buscar el primer bloque libre que pueda contener la solicitud
             int indiceFirst = -1;
             
             for (int i = 0; i < memoria.size(); i++) {
@@ -245,7 +245,7 @@ public class FirstFitGUI extends JFrame {
             }
 
             // Fusionar con bloques libres adyacentes
-            // Fusionar con el siguiente si está libre
+            // Fusionar con el siguiente si esta libre
             if (indice < memoria.size() - 1) {
                 BloqueMemoria actual = memoria.get(indice);
                 BloqueMemoria siguiente = memoria.get(indice + 1);
@@ -256,7 +256,7 @@ public class FirstFitGUI extends JFrame {
                 }
             }
 
-            // Fusionar con el anterior si está libre
+            // Fusionar con el anterior si esta libre
             if (indice > 0) {
                 BloqueMemoria actual = memoria.get(indice);
                 BloqueMemoria anterior = memoria.get(indice - 1);
