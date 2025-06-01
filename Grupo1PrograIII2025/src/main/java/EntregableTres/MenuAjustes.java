@@ -142,9 +142,35 @@ public class MenuAjustes extends JFrame {
         }
     }
 
-    private void abrirBestFit() {
+        private void abrirBestFit() {
+            try {
+                String input = JOptionPane.showInputDialog(
+                        this,
+                        "Ingrese el tamaño total de memoria:",
+                        "Configuración Best Fit",
+                        JOptionPane.QUESTION_MESSAGE
+                );
 
-    }
+                if (input != null) {
+                    int tamaño = Integer.parseInt(input);
+                    if (tamaño > 0) {
+                        new BestFitGUI(tamaño, this).setVisible(true);
+                        this.setVisible(false);
+                    } else {
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "Debe ingresar un número mayor que 0",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                    }
+                }
+            } catch (NumberFormatException ex) {
+                mostrarError("Debe ingresar un número válido", ex);
+            } catch (Exception ex) {
+                mostrarError("Error al abrir Best Fit", ex);
+            }
+        }
 
     private void abrirFirstFit() {
     try {
